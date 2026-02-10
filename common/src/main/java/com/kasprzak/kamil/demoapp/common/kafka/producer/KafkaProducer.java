@@ -33,9 +33,9 @@ public class KafkaProducer<T> {
             kafkaTemplate.send(record)
                     .whenComplete((result, ex) -> {
                         if (ex == null) {
-                            System.out.println("✅ Event sended: " + event);
+                            System.out.println("Event sended: " + event);
                         } else {
-                            System.err.println("❌ Error while sending event: " + ex.getMessage());
+                            System.err.println("Error while sending event: " + ex.getMessage());
                         }
                     });
         } catch (Exception e) {

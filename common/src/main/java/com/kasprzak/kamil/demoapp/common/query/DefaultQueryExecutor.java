@@ -1,6 +1,7 @@
 package com.kasprzak.kamil.demoapp.common.query;
 
 import com.kasprzak.kamil.demoapp.common.exceptions.BusinesException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,9 +9,9 @@ import java.util.List;
 
 
 @Service
+@AllArgsConstructor
 public class DefaultQueryExecutor implements QueryExecutor {
 
-    @Autowired
     private List<QueryHandler<?, ?>> commandHandlers;
 
     @Override
