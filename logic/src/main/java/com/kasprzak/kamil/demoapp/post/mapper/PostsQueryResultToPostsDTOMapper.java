@@ -1,23 +1,13 @@
 package com.kasprzak.kamil.demoapp.post.mapper;
 
-import com.kasprzak.kamil.demoapp.common.mapper.Mapper;
 import com.kasprzak.kamil.demoapp.post.CommentDTO;
 import com.kasprzak.kamil.demoapp.post.PostDTO;
 import com.kasprzak.kamil.demoapp.post.GetPostsResponse;
 import com.kasprzak.kamil.demoapp.post.query.PostsQueryResult;
 
-public class PostsQueryResultToPostsDTOMapper implements Mapper<PostsQueryResult, GetPostsResponse> {
-    @Override
-    public Class<PostsQueryResult> getSourceType() {
-        return PostsQueryResult.class;
-    }
+public class PostsQueryResultToPostsDTOMapper{
 
-    @Override
-    public Class<GetPostsResponse> getTargetType() {
-        return GetPostsResponse.class;
-    }
 
-    @Override
     public GetPostsResponse map(PostsQueryResult result) {
         return GetPostsResponse
                 .builder()

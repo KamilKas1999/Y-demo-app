@@ -7,18 +7,9 @@ import com.kasprzak.kamil.demoapp.notification.query.get.NotificationsQueryResul
 
 import java.util.stream.Collectors;
 
-public class NotificationsQueryResultToNotificationDTOMapper implements Mapper<NotificationsQueryResult, NotificationsRequest> {
-    @Override
-    public Class<NotificationsQueryResult> getSourceType() {
-        return NotificationsQueryResult.class;
-    }
+public class NotificationsQueryResultToNotificationDTOMapper{
 
-    @Override
-    public Class<NotificationsRequest> getTargetType() {
-        return NotificationsRequest.class;
-    }
 
-    @Override
     public NotificationsRequest map(NotificationsQueryResult source) {
         return NotificationsRequest
                 .builder()
