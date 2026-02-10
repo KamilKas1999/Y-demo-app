@@ -1,5 +1,6 @@
 package com.kasprzak.kamil.demoapp.common.command;
 
+import com.kasprzak.kamil.demoapp.common.exceptions.BusinesException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class DefaultCommandExecutor implements CommandExecutor {
 
     @SuppressWarnings("unchecked")
     @Override
-    public void execute(Command command) throws CommandHandlerNotFoundExeption {
+    public void execute(Command command) throws CommandHandlerNotFoundExeption, BusinesException {
         CommandHandler<Command> handler =
                 (CommandHandler<Command>) commandHandlers.stream()
                         .filter(h -> isThisHandlerForThisCommand(command, h))

@@ -6,6 +6,7 @@ import com.kasprzak.kamil.demoapp.post.PostEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -14,5 +15,5 @@ import java.util.List;
 @Data
 public class NotificationsQueryResult implements QueryResult {
 
-    List<NotificationEntity> notifications;
+    Page<NotificationEntity> notifications;
 }

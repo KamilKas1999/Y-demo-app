@@ -42,31 +42,38 @@ public class AuthenticationService {
     private final KafkaProducer kafkaProducer;
 
     public AuthenticationResponse register(RegisterRequest request) throws BusinesException {
-//        var user = UserEntity.builder()
-//                .firstname(request.getFirstname())
-//                .lastname(request.getLastname())
-//                .email(request.getEmail())
-//                .password(passwordEncoder.encode(request.getPassword()))
-//                .role(request.getRole())
-//                .build();
-//        var savedUser = repository.save(user);
 
-        var command = new CreateUserCommand(request.getFirstname(), request.getLastname(), request.getEmail(),
-                request.getPassword(), request.getRole());
-        var commandResult = commandExecutor.execute(command, CreateUserCommandResult.class);
+        var commandResult = createUser(request);
 
-        var query = new UserQuery(commandResult.userId());
-        var user = queryExecutor.execute(query, UsersQueryResult.class);
+        var user = getUser(commandResult);
 
         var jwtToken = jwtService.generateToken(user.getUserEntities());
         var refreshToken = jwtService.generateRefreshToken(user.getUserEntities());
+
         saveUserToken(user.getUserEntities(), jwtToken);
+
         kafkaProducer.sendEvent(new NewUserRegisteredEvent(user.getUserEntities().getId()));
+
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
     }
+
+    private CreateUserCommandResult createUser(RegisterRequest request) {
+        var command = new CreateUserCommand(request.getFirstname(), request.getLastname(), request.getEmail(),
+                request.getPassword(), request.getRole());
+        var commandResult = commandExecutor.execute(command, CreateUserCommandResult.class);
+        return commandResult;
+    }
+
+    private UsersQueryResult getUser(CreateUserCommandResult commandResult) throws BusinesException {
+        var query = new UserQuery(commandResult.userId());
+        var user = queryExecutor.execute(query, UsersQueryResult.class);
+        return user;
+    }
+
+
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) throws UserNotFoundException {
         authenticationManager.authenticate(

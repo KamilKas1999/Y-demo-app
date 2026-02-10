@@ -1,13 +1,18 @@
 package com.kasprzak.kamil.demoapp.notification.service;
 
+import com.kasprzak.kamil.demoapp.common.exceptions.BusinesException;
 import com.kasprzak.kamil.demoapp.notification.NotificationEntity;
 import com.kasprzak.kamil.demoapp.notification.NotificationRepository;
 import com.kasprzak.kamil.demoapp.user.UserRepository;
+import com.kasprzak.kamil.demoapp.user.exceptions.UserNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.time.Instant;
+
 
 @Component
 @RequiredArgsConstructor
@@ -17,23 +22,25 @@ public class DefaultNotificationService implements NotificationService{
 
     private final UserRepository userRepository;
 
-    public void createNotification(Long userId, String topic, String content) {
+    public void createNotification(Long userId, String topic, String content) throws UserNotFoundException {
         var user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         NotificationEntity entity = NotificationEntity
                 .builder()
                 .user(user)
                 .topic(topic)
                 .content(content)
+                .isRead(false)
+                .createdAt(Instant.now())
                 .build();
 
         notificationRepository.save(entity);
     }
 
 
-    public List<NotificationEntity> getNotifications(final Long userId){
-        return notificationRepository.findByUserId(userId);
+    public Page<NotificationEntity> getNotifications(final Long userId, final Pageable pageable){
+        return notificationRepository.findByUserId(userId, pageable);
     }
 
 }

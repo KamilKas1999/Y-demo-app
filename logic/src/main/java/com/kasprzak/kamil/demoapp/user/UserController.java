@@ -24,12 +24,6 @@ public class UserController {
     @Autowired
     private CommandExecutor commandExecutor;
 
-//    @PostMapping
-//    public void createUser(final CreateUserDTO userDTO) {
-//        final var command = new CreateUserCommand(userDTO.getName(), userDTO.getUsername());
-//        commandExecutor.execute(command);
-//    }
-
     @GetMapping
     public UsersResponse getUsers() throws BusinesException {
         var query = new UsersListQuery();
@@ -50,7 +44,7 @@ public class UserController {
     }
 
     @DeleteMapping
-    public void deleteUser(final DeleteUserRequest userDTO) {
+    public void deleteUser(final DeleteUserRequest userDTO) throws BusinesException {
         var command = new DeleteUserCommand(userDTO.getUserId());
         commandExecutor.execute(command);
     }

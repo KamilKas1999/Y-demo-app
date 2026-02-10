@@ -25,7 +25,7 @@ public class PostController {
     private PostsQueryResultToPostsDTOMapper mapper;
 
     @PostMapping
-    public void createPost(@RequestBody final CreatePostRequest createPostRequest) {
+    public void createPost(@RequestBody final CreatePostRequest createPostRequest) throws BusinesException {
         final var command = new CreatePostCommand(createPostRequest.getUserId(), createPostRequest.getContent());
         commandExecutor.execute(command);
     }
@@ -45,7 +45,7 @@ public class PostController {
     }
 
     @PostMapping("/comment")
-    public void commentPost(@RequestBody final CommentPostRequest commentPostRequest) {
+    public void commentPost(@RequestBody final CommentPostRequest commentPostRequest) throws BusinesException {
         var command = CommentPostCommand
                 .builder()
                 .postId(commentPostRequest.getPostId())
