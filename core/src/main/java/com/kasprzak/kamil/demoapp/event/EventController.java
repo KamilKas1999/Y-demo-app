@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class EventController {
 
-    private QueryExecutor queryExecutor;
+    private final QueryExecutor queryExecutor;
 
-    private CommandExecutor commandExecutor;
+    private final CommandExecutor commandExecutor;
 
-    private EventsQueryResultToEventDTOMapper mapper;
+    private final EventsQueryResultToEventDTOMapper mapper;
 
     @GetMapping("/{userId}")
     public EventsResponse getEvents(@PathVariable Long userId) throws BusinesException {
