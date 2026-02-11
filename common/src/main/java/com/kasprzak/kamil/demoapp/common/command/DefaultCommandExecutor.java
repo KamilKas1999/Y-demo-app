@@ -32,7 +32,7 @@ public class DefaultCommandExecutor implements CommandExecutor {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends CommandResult> T execute(Command command, Class<T> resultType) throws CommandHandlerNotFoundExeption {
+    public <T extends CommandResult> T execute(Command command, Class<T> resultType) throws CommandHandlerNotFoundExeption, BusinesException {
         CommandHandlerWithResult<Command, T> handler =
                 (CommandHandlerWithResult<Command, T>) commandHandlersWithResult.stream()
                         .filter(h -> isThisHandlerForThisCommand(command, h))
